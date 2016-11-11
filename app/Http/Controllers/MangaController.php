@@ -22,6 +22,11 @@ class MangaController extends Controller
 
         $query = (new Manga)->newQuery();
 
+
+        if ($request->has('favorited')) {
+            $query->where('favorited', $request->input('favorited'));
+        }
+
         if ($request->has('q')) {
             $query->search($request->input('q'));
         }
