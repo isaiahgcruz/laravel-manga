@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
 
 class Manga extends Model
@@ -14,4 +15,13 @@ class Manga extends Model
     protected $fillable = [
         'id', 'title'
     ];
+
+    /**
+     * The attributes that are searchable
+     *
+     * @var array
+     */
+    protected $searchableColumns = ['title'];
+
+    public $incrementing = false;
 }
