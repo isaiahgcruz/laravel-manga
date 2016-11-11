@@ -13,7 +13,7 @@ class Manga extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'title'
+        'id', 'title', 'favorited'
     ];
 
     /**
