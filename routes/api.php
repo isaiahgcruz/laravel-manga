@@ -21,3 +21,5 @@ Route::get('/user', function (Request $request) {
 Route::resource('mangas', 'MangaController', 
     ['only' => ['index'] ]
 );
+
+Route::post('mangas/{manga}/toggleFavorite','MangaController@toggleFavorite');
