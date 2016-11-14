@@ -47,6 +47,9 @@ class MangaController extends Controller
             $perPage = $request->has('per_page') ? $request->input('per_page') : 5;
             $query = $query->paginate($perPage);
         } else {
+            if ($request->has('limit')) {
+                $query->limit($request->input('limit'));
+            }
             $query = $query->get();
         }
 
