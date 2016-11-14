@@ -70,4 +70,18 @@ class MangaController extends Controller
         return $manga;
     }
 
+    /**
+     * Update last read chapter of a manga
+     * 
+     * @param  Manga $manga
+     * @param  Illuminate\Http\Request $request
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function lastReadChapter(Manga $manga, Request $request)
+    {
+        $manga->update(['last_read_chapter' => $request->input('last_read_chapter')]);
+        return $manga;
+    }
+
 }
