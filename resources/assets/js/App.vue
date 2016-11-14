@@ -1,8 +1,19 @@
 <template>
   <div class="container">
     App
+    <manga-list></manga-list>
   </div>
 </template>
+
+<script>
+  import MangaList from './components/MangaList.vue';
+
+  export default {
+    components: {
+      MangaList
+    },
+  }
+</script>
 
 <style lang="css">
   .container {
