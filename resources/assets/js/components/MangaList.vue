@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <h5>Favorited Mangas</h5>
-    <ul>
-      <li v-for="manga in mangas">{{ manga.title }}</li>
-    </ul>
+  <div class="panel panel-default">
+    <div class="panel-heading"><h1 class="panel-title">Favorited Mangas</h1></div>
+    <div class="panel-body">
+      <ul>
+        <li v-for="manga in mangas">{{ manga.title }}</li>
+      </ul>
+    </div>
   </div>
 </template>
 

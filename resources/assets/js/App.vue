@@ -9,6 +9,11 @@
           :success-callback="selectManga"
           :input-text="inputText"
         />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
         <manga-list></manga-list>
       </div>
     </div>
