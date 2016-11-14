@@ -23,3 +23,5 @@ Route::resource('mangas', 'MangaController',
 );
 
 Route::post('mangas/{manga}/toggleFavorite','MangaController@toggleFavorite');
+
+Route::patch('mangas/{manga}/lastReadChapter','MangaController@lastReadChapter');

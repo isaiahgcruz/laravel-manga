@@ -22,9 +22,11 @@
       </span>
       <ul v-if="showChapters">
         <li v-for="chapter in manga.chapters">
-          Chapter {{ chapter[0] }} | {{ chapter[2] }}
-          <span class="pull-right">
-            <a :href="chapter[3]">View</a>
+          <span v-bind:class="[ dbManga.last_read_chapter < chapter[0] ? 'text-primary' : '']">
+            Chapter {{ chapter[0] }} | {{ chapter[2] }}
+            <span class="pull-right">
+              <a @click="markChapterAsLastRead(chapter[0])" target="_blank" :href="chapter[3]">View</a>
+            </span>
           </span>
         </li>
       </ul>
@@ -59,6 +61,14 @@
           .then(({ body }) => {
             this.dbManga = body;
             this.$bus.$emit('refresh-manga-list');
+          });
+      },
+
+      markChapterAsLastRead(chapter) {
+        const payLoad = { last_read_chapter: chapter }
+        this.$http.patch(`api/mangas/${this.dbManga.id}/lastReadChapter`, payLoad)
+          .then(({ body }) => {
+            this.dbManga = body;
           });
       },
     },
