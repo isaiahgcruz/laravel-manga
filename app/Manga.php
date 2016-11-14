@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Manga extends Model
 {
+    use Eloquence;
+    
     /**
      * The attributes that are mass assignable.
      *
