@@ -1,7 +1,11 @@
 <template>
   <div class="container">
-    App
-    <manga-list></manga-list>
+    <div class="panel panel-default">
+      <div class="panel-heading"><h1 class="panel-title">Manga Laravel</h1></div>
+      <div class="panel-body">
+        <manga-list></manga-list>
+      </div>
+    </div>
   </div>
 </template>
 

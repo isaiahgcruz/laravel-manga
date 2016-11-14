@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Favorited Mangas</h3>
+    <h5>Favorited Mangas</h5>
     <ul>
       <li v-for="manga in mangas">{{ manga.title }}</li>
     </ul>
