@@ -41,6 +41,12 @@
       }
     },
 
+    created () {
+      this.$bus.$on('select-manga', (manga) => {
+        this.selectManga(manga);
+      })
+    },
+
     methods: {
       selectManga(manga) {
         this.selectedManga = manga;
