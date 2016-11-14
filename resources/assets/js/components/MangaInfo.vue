@@ -17,7 +17,9 @@
     <div class="panel-body" v-if="manga">
       <img :src="mangaImage" class="pull-right" v-if="manga">
       <p>{{ manga.description }}</p>
-      <span @click="showChapters = !showChapters">Chapters</span>
+      <span @click="showChapters = !showChapters" style="cursor: pointer;">
+        <u>Chapters {{ showChapters ? '&#9650;' : '&#9660;'}}</u>
+      </span>
       <ul v-if="showChapters">
         <li v-for="chapter in manga.chapters">Chapter {{ chapter[0] }} | {{ chapter[2] }}</li>
       </ul>
@@ -55,6 +57,7 @@
         this.$http.post(`api/mangas/${this.id}/toggleFavorite`)
           .then(({ body }) => {
             this.isFavorited = body.favorited;
+            this.$bus.$emit('refresh-manga-list');
           });
       },
     },
