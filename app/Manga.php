@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
 
 class Manga extends Model
 {
-    use Eloquence;
     
     /**
      * The attributes that are mass assignable.
@@ -17,13 +15,6 @@ class Manga extends Model
     protected $fillable = [
         'id', 'title', 'favorited'
     ];
-
-    /**
-     * The attributes that are searchable
-     *
-     * @var array
-     */
-    protected $searchableColumns = ['title'];
 
     public $incrementing = false;
 }

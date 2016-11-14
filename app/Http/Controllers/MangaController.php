@@ -28,7 +28,7 @@ class MangaController extends Controller
         }
 
         if ($request->has('q')) {
-            $query->search($request->input('q'));
+            $query->where('title', 'LIKE', '%'.$request->input('q').'%');
         }
 
         if ($request->has('sort')) {
