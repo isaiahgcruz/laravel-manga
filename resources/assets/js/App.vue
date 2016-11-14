@@ -16,6 +16,9 @@
       <div class="col-md-3">
         <manga-list></manga-list>
       </div>
+      <div class="col-md-9">
+        <manga-info :id="selectedManga.id"></manga-info>
+      </div>
     </div>
   </div>
 </template>
@@ -23,10 +26,11 @@
 <script>
   import MangaList from './components/MangaList.vue';
   import Typeahead from './components/Typeahead.vue';
+  import MangaInfo from './components/MangaInfo.vue';
 
   export default {
     components: {
-      MangaList, Typeahead,
+      MangaList, Typeahead, MangaInfo
     },
 
     data() {
