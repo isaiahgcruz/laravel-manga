@@ -3,7 +3,7 @@
     <div class="panel-heading" v-if="manga">
       <div class="pull-right">
         <span 
-          v-bind:class="[ isFavorited == '1' ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty' ]"
+          v-bind:class="[ dbManga.favorited == '1' ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty' ]"
           @click="toggleFavorite"
           ></span>
       </div>
@@ -36,17 +36,13 @@
 <script>
   export default {
     props: {
-      id: {
-        type: String
-      },
-      favorited: 0,
+      dbManga: {},
     },
 
     data() {
       return {
         manga: false,
-        showChapters: false,
-        isFavorited: this.favorited,
+        showChapters: false
       };
     },
 
@@ -59,14 +55,13 @@
       },
 
       toggleFavorite() {
-        this.$http.post(`api/mangas/${this.id}/toggleFavorite`)
+        this.$http.post(`api/mangas/${this.dbManga.id}/toggleFavorite`)
           .then(({ body }) => {
-            this.isFavorited = body.favorited;
+            this.dbManga = body;
             this.$bus.$emit('refresh-manga-list');
           });
       },
     },
-
     computed: {
       mangaImage() {
         return `http://cdn.mangaeden.com/mangasimg/${this.manga.image}`;
@@ -74,8 +69,7 @@
     },
 
     watch: {
-      id(val) {
-        this.isFavorited = this.favorited;
+      'dbManga.id'(val) {
         this.loadManga(val);
       },
     },

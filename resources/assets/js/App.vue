@@ -17,7 +17,7 @@
         <manga-list></manga-list>
       </div>
       <div class="col-md-9">
-        <manga-info :id="selectedManga.id" :favorited="selectedManga.favorited"></manga-info>
+        <manga-info :db-manga="selectedManga"></manga-info>
       </div>
     </div>
   </div>
