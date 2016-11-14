@@ -15,7 +15,18 @@ require('./bootstrap');
 
 import App from './App.vue'
 
+/**
+ * Initialize bus
+ */
+const bus = new Vue();
+Object.defineProperty(Vue.prototype, '$bus', {
+    get() {
+        return this.$root.bus;
+    }
+});
+
 const app = new Vue({
     el: '#app',
     components: { App },
+    data: { bus },
 });
