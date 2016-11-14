@@ -1,9 +1,18 @@
 <template>
   <div class="panel panel-default">
     <div class="panel-heading" v-if="manga">
+      <div class="pull-right">
+        <span 
+          v-bind:class="[ isFavorited == '1' ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty' ]"
+          @click="toggleFavorite"
+          ></span>
+      </div>
       <h1 class="panel-title">
-        {{ manga.title }} || {{ manga.artist }} {{ manga.author}}
+        {{ manga.title }}
       </h1>
+      <h6>
+        {{ manga.author }} | {{ manga.artist }}
+      </h6>
     </div>
     <div class="panel-body" v-if="manga">
       <img :src="mangaImage" class="pull-right" v-if="manga">
@@ -13,7 +22,7 @@
         <li v-for="chapter in manga.chapters">Chapter {{ chapter[0] }} | {{ chapter[2] }}</li>
       </ul>
     </div>
-    <div class="panel-body" v-else>Select a Manga</div>
+    <div class="panel-body" v-else><p class="text-center">Select a Manga</p></div>
   </div>
 </template>
 
@@ -22,13 +31,15 @@
     props: {
       id: {
         type: String
-      }
+      },
+      favorited: 0,
     },
 
     data() {
       return {
         manga: false,
         showChapters: false,
+        isFavorited: this.favorited,
       };
     },
 
@@ -38,7 +49,14 @@
           .then(({ body }) => {
             this.manga = body;
           })
-      }
+      },
+
+      toggleFavorite() {
+        this.$http.post(`api/mangas/${this.id}/toggleFavorite`)
+          .then(({ body }) => {
+            this.isFavorited = body.favorited;
+          });
+      },
     },
 
     computed: {
@@ -49,8 +67,8 @@
 
     watch: {
       id(val) {
+        this.isFavorited = this.favorited;
         this.loadManga(val);
-        console.log(this.mangaImage);
       },
     },
   }
