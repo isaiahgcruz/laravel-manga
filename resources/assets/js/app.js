@@ -14,6 +14,7 @@ require('./bootstrap');
  */
 
 import App from './App.vue'
+import MangaChapter from './MangaChapter.vue'
 
 /**
  * Initialize bus
@@ -27,6 +28,6 @@ Object.defineProperty(Vue.prototype, '$bus', {
 
 const app = new Vue({
     el: '#app',
-    components: { App },
+    components: { App, MangaChapter },
     data: { bus },
 });

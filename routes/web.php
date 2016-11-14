@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/{id}', function ($id) {
+    return view('view', ['id' => $id ]);
+});
