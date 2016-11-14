@@ -3,7 +3,9 @@
     <div class="panel-heading"><h1 class="panel-title">Favorited Mangas</h1></div>
     <div class="panel-body">
       <ul>
-        <li v-for="manga in mangas" @click="selectManga(manga)">{{ manga.title }}</li>
+        <li v-for="manga in mangas" @click="selectManga(manga)">
+          <span style="cursor: pointer;"><u>{{ manga.title }}</u></span>
+        </li>
       </ul>
     </div>
   </div>
