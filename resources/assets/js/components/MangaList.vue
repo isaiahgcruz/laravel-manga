@@ -18,16 +18,23 @@
     },
 
     created() {
-      this.$http.get('api/mangas?favorited=1&sort=title')
-        .then(({ body }) => {
-          this.mangas = body;
-        })
+      this.$bus.$on('refresh-manga-list', () => {
+        this.fetchData();
+      });
+      this.fetchData();
     },
 
     methods: {
       selectManga(manga) {
         this.$bus.$emit('select-manga', manga);
       },
+
+      fetchData() {
+        this.$http.get('api/mangas?favorited=1&sort=title')
+          .then(({ body }) => {
+            this.mangas = body;
+          })
+      }
     },
   }
 </script>
