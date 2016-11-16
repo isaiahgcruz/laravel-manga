@@ -2,7 +2,7 @@
   <div class="panel panel-default">
     <div class="panel-heading" v-if="manga">
       <div class="pull-right">
-        <span 
+        <span
           v-bind:class="[ dbManga.favorited == '1' ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty' ]"
           @click="toggleFavorite"
           ></span>
@@ -25,7 +25,8 @@
           <span v-bind:class="[ dbManga.last_read_chapter < chapter[0] ? 'text-primary' : '']">
             Chapter {{ chapter[0] }} | {{ chapter[2] }}
             <span class="pull-right">
-              <a @click="markChapterAsLastRead(chapter[0])" target="_blank" :href="chapter[3]">View</a>
+              <a @click="markChapterAsLastRead(chapter[0])" target="_blank" :href="chapter[3]">View</a> |
+              <a @click="downloadChapter(chapter)" href="#">Download</a>
             </span>
           </span>
         </li>
@@ -70,6 +71,23 @@
           .then(({ body }) => {
             this.dbManga = body;
           });
+      },
+
+      downloadChapter(chapter) {
+        this.$http.get(`api/chapters/${chapter[3]}/images?chapter=${chapter[0]}&manga=${this.dbManga.title}`)
+          .then(({ body }) => {
+            const payLoad = {
+              chapter: chapter[0],
+              manga: this.dbManga.title,
+              imageFilenames: body
+            }
+            this.$http.post(`api/chapters/${chapter[3]}/zip`, payLoad)
+              .then((res) => {
+                const fileName = res.body;
+                window.location.href = `/uploads/${fileName}`;
+                this.markChapterAsLastRead(chapter[0]);
+              })
+          })
       },
     },
     computed: {

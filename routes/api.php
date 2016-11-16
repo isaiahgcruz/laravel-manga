@@ -18,10 +18,13 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 
-Route::resource('mangas', 'MangaController', 
+Route::resource('mangas', 'MangaController',
     ['only' => ['index'] ]
 );
 
 Route::post('mangas/{manga}/toggleFavorite','MangaController@toggleFavorite');
 
 Route::patch('mangas/{manga}/lastReadChapter','MangaController@lastReadChapter');
+
+Route::post('chapters/{chapterId}/zip', 'MangaController@downloadChapter');
+Route::get('chapters/{chapterId}/images', 'MangaController@downloadImages');
