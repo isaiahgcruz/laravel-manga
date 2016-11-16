@@ -1,5 +1,11 @@
 <template>
-  <div class="panel panel-default">
+  <div class="panel panel-default" v-if="isLoading">
+    <div class="panel-body">
+      <p class="text-center">Loading...</p>
+      <clip-loader :loading="isLoading"></clip-loader>
+    </div>
+  </div>
+  <div class="panel panel-default" v-else>
     <div class="panel-heading" v-if="manga">
       <div class="pull-right">
         <span
@@ -21,12 +27,12 @@
         <u>Chapters {{ showChapters ? '&#9650;' : '&#9660;'}}</u>
       </span>
       <ul v-if="showChapters">
-        <li v-for="chapter in manga.chapters">
+        <li v-for="(chapter, index) in manga.chapters">
           <span v-bind:class="[ dbManga.last_read_chapter < chapter[0] ? 'text-primary' : '']">
             Chapter {{ chapter[0] }} | {{ chapter[2] }}
             <span class="pull-right">
               <a @click="markChapterAsLastRead(chapter[0])" target="_blank" :href="chapter[3]">View</a> |
-              <a @click="downloadChapter(chapter)" href="#">Download</a>
+              <a @click="downloadChapter(index)" href="#">Download</a>
             </span>
           </span>
         </li>
@@ -37,23 +43,34 @@
 </template>
 
 <script>
+  import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+
   export default {
     props: {
       dbManga: {},
     },
 
+    components: {
+      ClipLoader,
+    },
+
     data() {
       return {
         manga: false,
-        showChapters: false
+        showChapters: false,
+        isLoading: false,
+        downloadingChapters: [],
       };
     },
 
     methods: {
       loadManga(id) {
+        this.isLoading = true;
         this.$http.get(`http://www.mangaeden.com/api/manga/${id}/`)
           .then(({ body }) => {
             this.manga = body;
+          }).finally(() => {
+            this.isLoading = false;
           })
       },
 
@@ -73,7 +90,9 @@
           });
       },
 
-      downloadChapter(chapter) {
+      downloadChapter(index) {
+        this.manga.chapters[index][4] = true;
+        const chapter = this.manga.chapters[index];
         this.$http.get(`api/chapters/${chapter[3]}/images?chapter=${chapter[0]}&manga=${this.dbManga.title}`)
           .then(({ body }) => {
             const payLoad = {
@@ -86,7 +105,9 @@
                 const fileName = res.body;
                 window.location.href = `/uploads/${fileName}`;
                 this.markChapterAsLastRead(chapter[0]);
-              })
+              }).finally(() => {
+                this.manga.chapters[index][4] = false;
+              });
           })
       },
     },
